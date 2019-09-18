@@ -1,5 +1,5 @@
 # LISPprotocolOnOvS
-Implementation for adapt LISP protocol on Software Defined Network (SDN) using OvS and LXC 
+Implementation for enable LISP protocol on Software Defined Network (SDN) using OvS and LXC 
 
 Schema of created network:
 <div style="text-align:center">
