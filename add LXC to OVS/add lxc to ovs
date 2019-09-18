@@ -1,0 +1,65 @@
+
+--------------- LXC AUTOCONFIGURATION TO OVS ---------------
+
+Create script LXC will run to bring if up/down
+	
+--- UP
+
+	cd /etc/lxc/ovsup
+
+		#!/bin/bash
+
+		BRIDGE="br0"
+		ovs-vsctl --may-exist add-br $BRIDGE
+		ifconfig $5 0.0.0.0 up
+		ovs-vsctl --if-exists del-port $BRIDGE $5
+		ovs-vsctl --may-exist add-port $BRIDGE $5
+
+--- DOWN
+
+	cd /etc/lxc/ovsdown
+
+		#!/bin/bash
+
+		BRIDGE="br0"
+		ifdown $5
+		ovs-vsctl del-port $BRIDGE $5
+
+
+##########################################################################
+
+
+--- Make two scripts executable.
+
+	# chmod +x /etc/lxc/ovs*
+
+
+--- Change config file of each CTs to use br100 (OVS bridge) Comment out link parameter which describing bridge to be connected.
+	Add script just mentioned above which are executed after up/down.
+	Required for all CTs ... lxc2, lxc3.
+
+	cd /var/lib/lxc/OpenLispControllerLXC/config
+		
+		#lxc.network.link = lxcbr0
+		lxc.network.script.up = /etc/lxc/ovsup
+		lxc.network.script.down = /etc/lxc/ovsdown
+
+
+--- Change network script of each CTs to assign static IP. (Assume network of the bridge is 10.100.0.0/24) Required for all CTs ... lxc2, lxc3.
+
+	cd /var/lib/lxc/OpenLispControllerLXC/rootfs/etc/network/interfaces
+
+		auto eth0
+		#iface eth0 inet dhcp
+		iface eth0 inet static
+		    address 192.168.1.120
+    		netmask 255.255.255.0
+    		gateway 192.168.1.1
+    		dns-nameservers 8.8.8.8
+
+
+		#iface eth0 inet6 static
+  			#address 5:6:7:8:101:1:1:1
+  			#netmask 80
+
+

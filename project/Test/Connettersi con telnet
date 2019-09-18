@@ -1,0 +1,5 @@
+serve per clientNI.py
+
+#Per provare se il client è in ascolto digitare:
+
+telnet 10.0.3.127 4342

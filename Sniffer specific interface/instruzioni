@@ -1,0 +1,4 @@
+Compile & Run
+
+gcc lsniffer.c -lpcap -o lsniffer
+sudo ./lsniffer 

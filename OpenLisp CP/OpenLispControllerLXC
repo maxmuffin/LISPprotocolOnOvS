@@ -1,0 +1,73 @@
+
+------------------------------------------- GUIDA INSTALLAZIONE -------------------------------------------
+
+--- CREO IL LINUX CONTAINER
+
+	lxc-create -t download -n OpenLispControllerLXC
+
+		ubuntu
+		trusty (14.04)
+		amd64
+
+--- AVVIO IL CONTAINER 
+	
+	lxc-start -n OpenLispControllerLXC
+	lxc-attach -n OpenLispControllerLXC
+
+--- AGGIUNGO L'UTENTE ADMIN (USER -- PASSWORD)
+
+	adduser admin -- admin
+
+--- INSTALLO I PROGRAMMI NECESSARI
+
+	sudo apt-get install build-essential
+	sudo apt-get install libexpat1-dev
+	sudo apt-get install wget
+	sudo apt-get install unzip
+	sudo apt-get install nano
+
+(non necessario)
+cd /etc/
+mkdir rc.d
+
+
+--- INSTALLAZIONE OPENLISP CONTROL PLANE
+	
+	cd /home/admin/
+
+	mkdir Download
+	cd Download
+
+
+	wget https://github.com/lip6-lisp/control-plane/archive/master.zip
+	unzip master.zip
+
+	mv control-plane-master /home/admin
+
+	cd /control-plane-master
+
+
+	-- installation:
+
+		make -f Makefile_linux
+		make -f Makefile_linux install
+
+
+--- AVVIO OPENCP
+
+	service opencp start
+
+--- STOP OPENCP
+	
+	service opencp stop
+
+
+
+
+
+
+
+
+
+
+
